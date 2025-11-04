@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 
 interface FluidTrackingModalProps {
   isOpen: boolean;
@@ -56,7 +57,7 @@ const FluidTrackingModal: React.FC<FluidTrackingModalProps> = ({
   const loadFluidTrackingData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5001/api/fluid-tracking/${userEmail}`);
+      const response = await fetch(`${API_BASE_URL}/api/fluid-tracking/${userEmail}`);
       const data = await response.json();
       
       if (data.success) {
@@ -105,7 +106,7 @@ const FluidTrackingModal: React.FC<FluidTrackingModalProps> = ({
       setSaving(true);
       setError('');
       
-      const response = await fetch(`http://localhost:5001/api/fluid-tracking/${userEmail}`, {
+      const response = await fetch(`${API_BASE_URL}/api/fluid-tracking/${userEmail}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

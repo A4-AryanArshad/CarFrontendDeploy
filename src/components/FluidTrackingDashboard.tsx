@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../config';
 
 interface FluidData {
   engineOil: number;
@@ -37,8 +38,8 @@ const FluidTrackingDashboard: React.FC = () => {
     try {
       setLoading(true);
       const url = selectedQuarter 
-        ? `http://localhost:5001/api/fluid-tracking?quarter=${selectedQuarter}`
-        : 'http://localhost:5001/api/fluid-tracking';
+        ? `${API_BASE_URL}/api/fluid-tracking?quarter=${selectedQuarter}`
+        : `${API_BASE_URL}/api/fluid-tracking`;
       
       const response = await fetch(url);
       const data = await response.json();
