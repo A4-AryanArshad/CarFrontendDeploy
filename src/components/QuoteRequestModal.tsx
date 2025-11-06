@@ -191,6 +191,8 @@ const QuoteRequestModal: React.FC<QuoteRequestModalProps> = ({ isOpen, onClose, 
             carModel: formData.carModel,
             carYear: formData.carYear,
             carVin: formData.carVin,
+            // Include registration captured via DVLA lookup/input
+            carRegistration: regInput,
             carMileage: formData.carMileage,
             serviceDescription: formData.serviceDescription,
             additionalDetails: formData.additionalDetails,
