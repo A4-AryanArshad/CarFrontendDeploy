@@ -52,22 +52,37 @@ const ReadyToExperience: React.FC = () => {
   };
 
   useEffect(() => {
+    // Check if screen is mobile (typically < 768px)
+    const isMobile = window.innerWidth < 768;
+    
     if (sectionRef.current) {
-      gsap.fromTo(
-        [titleRef.current, descRef.current, ...featuresRef.current, actionsRef.current],
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.13,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-          },
-        }
-      );
+      const elements = [titleRef.current, descRef.current, ...featuresRef.current, actionsRef.current].filter(Boolean);
+      
+      if (isMobile) {
+        // On mobile: skip animation, just show elements immediately
+        elements.forEach((el) => {
+          if (el) {
+            (el as HTMLElement).style.opacity = '1';
+            (el as HTMLElement).style.transform = 'translateY(0)';
+          }
+        });
+      } else {
+        gsap.fromTo(
+          elements,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.13,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 80%',
+            },
+          }
+        );
+      }
     }
   }, []);
 

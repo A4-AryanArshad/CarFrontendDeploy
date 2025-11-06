@@ -152,46 +152,69 @@ const Services: React.FC = () => {
   }, [filtered.length]);
 
   useEffect(() => {
+    // Check if screen is mobile (typically < 768px)
+    const isMobile = window.innerWidth < 768;
+    
     try {
       if (sectionRef.current) {
         const headerElements = [titleRef.current, descRef.current, tabsRef.current].filter(Boolean);
         if (headerElements.length > 0) {
-          gsap.fromTo(
-            headerElements,
-            { opacity: 0, y: 40 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.7,
-              stagger: 0.15,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: 'top 80%',
-              },
-            }
-          );
+          if (isMobile) {
+            // On mobile: skip animation, just show elements immediately
+            headerElements.forEach((el) => {
+              if (el) {
+                (el as HTMLElement).style.opacity = '1';
+                (el as HTMLElement).style.transform = 'translateY(0)';
+              }
+            });
+          } else {
+            gsap.fromTo(
+              headerElements,
+              { opacity: 0, y: 40 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.7,
+                stagger: 0.15,
+                ease: 'power3.out',
+                scrollTrigger: {
+                  trigger: sectionRef.current,
+                  start: 'top 80%',
+                },
+              }
+            );
+          }
         }
       }
       
       // Filter out null values and only animate existing elements
       const validCards = cardsRef.current.filter(Boolean);
       if (validCards.length > 0 && sectionRef.current) {
-        gsap.fromTo(
-          validCards,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            stagger: 0.13,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top 75%',
-            },
-          }
-        );
+        if (isMobile) {
+          // On mobile: skip animation, just show elements immediately
+          validCards.forEach((el) => {
+            if (el) {
+              (el as HTMLElement).style.opacity = '1';
+              (el as HTMLElement).style.transform = 'translateY(0)';
+            }
+          });
+        } else {
+          gsap.fromTo(
+            validCards,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              stagger: 0.13,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top 75%',
+              },
+            }
+          );
+        }
       }
     } catch (error) {
       console.warn('GSAP animation error:', error);

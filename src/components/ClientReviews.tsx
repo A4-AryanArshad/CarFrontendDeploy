@@ -41,22 +41,37 @@ const ClientReviews: React.FC = () => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Check if screen is mobile (typically < 768px)
+    const isMobile = window.innerWidth < 768;
+    
     if (sectionRef.current) {
-      gsap.fromTo(
-        [titleRef.current, cardRef.current],
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.18,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-          },
+      if (isMobile) {
+        // On mobile: skip animation, just show elements immediately
+        if (titleRef.current) {
+          (titleRef.current as HTMLElement).style.opacity = '1';
+          (titleRef.current as HTMLElement).style.transform = 'translateY(0)';
         }
-      );
+        if (cardRef.current) {
+          (cardRef.current as HTMLElement).style.opacity = '1';
+          (cardRef.current as HTMLElement).style.transform = 'translateY(0)';
+        }
+      } else {
+        gsap.fromTo(
+          [titleRef.current, cardRef.current],
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.18,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 80%',
+            },
+          }
+        );
+      }
     }
   }, []);
 

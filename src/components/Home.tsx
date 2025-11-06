@@ -18,26 +18,37 @@ const Home: React.FC = () => {
   const [eligibleInfo, setEligibleInfo] = useState<{plan?: string; startedAt?: string} | null>(null);
 
   useEffect(() => {
-    // Set initial state
+    // Check if screen is mobile (typically < 768px)
+    const isMobile = window.innerWidth < 768;
+    
     if (heroTextRef.current) {
-      Array.from(heroTextRef.current.children).forEach((el) => {
-        (el as HTMLElement).style.opacity = '0';
-        (el as HTMLElement).style.transform = 'translateY(40px)';
-      });
-    }
-    // Animate in after a short delay
-    const timeout = setTimeout(() => {
-      if (heroTextRef.current) {
-        gsap.to(heroTextRef.current.children, {
-          opacity: 1,
-          y: 0,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: 'power3.out',
+      if (isMobile) {
+        // On mobile: skip animation, just show elements immediately
+        Array.from(heroTextRef.current.children).forEach((el) => {
+          (el as HTMLElement).style.opacity = '1';
+          (el as HTMLElement).style.transform = 'translateY(0)';
         });
+      } else {
+        // On desktop: Set initial state for animation
+        Array.from(heroTextRef.current.children).forEach((el) => {
+          (el as HTMLElement).style.opacity = '0';
+          (el as HTMLElement).style.transform = 'translateY(40px)';
+        });
+        // Animate in after a short delay
+        const timeout = setTimeout(() => {
+          if (heroTextRef.current) {
+            gsap.to(heroTextRef.current.children, {
+              opacity: 1,
+              y: 0,
+              stagger: 0.15,
+              duration: 0.8,
+              ease: 'power3.out',
+            });
+          }
+        }, 800); // 0.8s delay
+        return () => clearTimeout(timeout);
       }
-    }, 800); // 0.8s delay
-    return () => clearTimeout(timeout);
+    }
   }, []);
 
   useEffect(() => {
