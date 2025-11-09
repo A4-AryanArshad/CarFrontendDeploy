@@ -2859,11 +2859,6 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ initialTab }) => {
                           <div style={{ flex: 1, minWidth: '300px' }}>
                             <div style={{ display: 'flex', gap: '16px', marginBottom: '12px', flexWrap: 'wrap' }}>
                               <div>
-                                <span style={{ color: '#bdbdbd', fontSize: '0.9rem' }}>Customer:</span>
-                                <div style={{ color: '#fff', fontWeight: '600', fontSize: '1.1rem' }}>{service.userName}</div>
-                                <div style={{ color: '#ffd600', fontSize: '0.9rem' }}>{service.userEmail}</div>
-                              </div>
-                              <div>
                                 <span style={{ color: '#bdbdbd', fontSize: '0.9rem' }}>Vehicle:</span>
                                 <div style={{ color: '#fff', fontWeight: '600', fontSize: '1.1rem' }}>{service.car?.registration || 'N/A'}</div>
                                 <div style={{ color: '#bdbdbd', fontSize: '0.9rem' }}>
